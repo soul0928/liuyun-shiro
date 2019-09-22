@@ -1,0 +1,24 @@
+server:
+  port: 8080
+  tomcat:
+    max-swallow-size: -1
+  servlet:
+    context-path: /liuyun-shiro
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/liuyun-shiro?characterEncoding=UTF-8&useUnicode=true&useSSL=false
+    username: root
+    password: root
+
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.liuyun.liuyunshiro.modules.pojo.enyity
+  typeEnumsPackage: com.liuyun.liuyunshiro.modules.pojo.enums
+# Logger Config
+logging:
+  level:
+    com.liuyun.liuyunshiro.modules.mapper: debug
