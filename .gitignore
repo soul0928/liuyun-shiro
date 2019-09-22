@@ -1,0 +1,117 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.vscode/
+### gitignore template
+#Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+#C/C++
+*.d
+*.obj
+*.tlog
+*.lastbuildstate
+*.idb
+*.pdb
+*.swp
+
+#Python
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist
+build
+
+#Java
+*.class
+*.jar
+
+#generated files
+bin/
+gen/
+
+#Eclipse Project Files
+.classpath
+.project
+.settings/
+
+#IntelliJ IDEA Files
+*.iml
+*.ipr
+*.iws
+*.idea
+
+README.html
+### gitignore template
+#Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+#C/C++
+*.d
+*.obj
+*.tlog
+*.lastbuildstate
+*.idb
+*.pdb
+*.swp
+
+#Python
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist
+build
+
+#Java
+*.class
+*.jar
+
+#generated files
+bin/
+gen/
+
+#Eclipse Project Files
+.classpath
+.project
+.settings/
+
+#IntelliJ IDEA Files
+*.iml
+*.ipr
+*.iws
+*.idea
+
+README.html
