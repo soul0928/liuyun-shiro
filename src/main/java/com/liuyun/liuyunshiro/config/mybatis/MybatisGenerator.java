@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 
 /**
  * @program: liuyun-shiro
@@ -27,7 +26,7 @@ public class MybatisGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         gc.setAuthor("WangDong");
-        gc.setOutputDir("F:/workspace/liuyun-shiro/src/main/java");
+        gc.setOutputDir("E:/workspace/liuyun-shiro/src/main/java");
         gc.setFileOverride(false);// 是否覆盖同名文件，默认是false
         gc.setActiveRecord(true);// 不需要ActiveRecord特性的请改为false
         gc.setEnableCache(false);// XML 二级缓存
@@ -59,12 +58,17 @@ public class MybatisGenerator {
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
         strategy.setTablePrefix(new String[] { "liuyun_" });// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[] { "liuyun_user" }); // 需要生成的表
+        //strategy.setInclude(new String[] { "liuyun_user" }); // 需要生成的表
+        strategy.setInclude(new String[] { "liuyun_user","liuyun_role","liuyun_permission","liuyun_user_role","liuyun_role_permission" }); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
-        // strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
+        strategy.setSuperEntityClass("com.liuyun.liuyunshiro.common.base.DataEntity");
         // 自定义实体，公共字段
-        // strategy.setSuperEntityColumns(new String[] { "test_id", "age" });
+        strategy.setSuperEntityColumns(new String[] { "create_user_id", "create_time", "update_user_id", "update_time", "remark", "version", "del_flag" });
+        // 【实体】
+        strategy.setEntityLombokModel(true);
+        //strategy.setEntityTableFieldAnnotationEnable(true);
+        //strategy.setEntityBuilderModel(true);
         // 自定义 mapper 父类
         // strategy.setSuperMapperClass("com.baomidou.demo.TestMapper");
         // 自定义 service 父类
@@ -76,9 +80,7 @@ public class MybatisGenerator {
         // 【实体】是否生成字段常量（默认 false）
         // public static final String ID = "test_id";
         // strategy.setEntityColumnConstant(true);
-        // 【实体】是否为构建者模型（默认 false）
-        // public User setName(String name) {this.name = name; return this;}
-        // strategy.setEntityBuilderModel(true);
+
         mpg.setStrategy(strategy);
 
         // 包配置

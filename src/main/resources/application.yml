@@ -15,7 +15,6 @@ spring:
 #mybatis
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
-  #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: com.liuyun.liuyunshiro.modules.pojo.enyity
   typeEnumsPackage: com.liuyun.liuyunshiro.modules.pojo.enums
 # Logger Config
