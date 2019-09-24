@@ -5,10 +5,11 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="UserEntity">
         <id column="id" property="id"/>
-        <result column="namr" property="namr"/>
+        <result column="namr" property="name"/>
         <result column="phone" property="phone"/>
-        <result column="username" property="username"/>
+        <result column="a" property="account"/>
         <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
         <result column="create_user_id" property="createUserId"/>
         <result column="create_time" property="createTime"/>
         <result column="update_user_id" property="updateUserId"/>

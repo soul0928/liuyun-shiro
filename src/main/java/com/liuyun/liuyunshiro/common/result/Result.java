@@ -4,8 +4,6 @@ import com.liuyun.liuyunshiro.common.constant.GlobalConstants;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 /**
  * @program: liuyun-shiro
@@ -56,13 +54,13 @@ public class Result<T> implements Serializable {
     }
 
     public static Result<Object> success(Object data) {
-        Result<Object> r = new Result<Object>();
+        Result<Object> r = new Result<>();
         r.setResult(data);
         return r;
     }
 
     public static Result<Object> success(String message, Object data) {
-        Result<Object> r = new Result<Object>();
+        Result<Object> r = new Result<>();
         r.setMessage(message);
         r.setResult(data);
         return r;

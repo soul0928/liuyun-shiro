@@ -32,7 +32,7 @@ public class UserEntity extends DataEntity<UserEntity> implements Serializable {
     /**
      * 姓名
      */
-    private String namr;
+    private String name;
 
     /**
      * 手机号
@@ -42,11 +42,18 @@ public class UserEntity extends DataEntity<UserEntity> implements Serializable {
     /**
      * 账号
      */
-    private String username;
+    private String account;
 
     /**
      * 密码
      */
     private String password;
+
+    /**
+     * 盐
+     */
+    private String salt;
+
+
 
 }

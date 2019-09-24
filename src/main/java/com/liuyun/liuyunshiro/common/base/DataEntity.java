@@ -1,5 +1,7 @@
 package com.liuyun.liuyunshiro.common.base;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,6 +13,7 @@ import java.util.Date;
  * @Date 2019/9/23 10:26
  * @Version 2.1.3
  **/
+@Data
 public class DataEntity<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
