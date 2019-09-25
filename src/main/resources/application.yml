@@ -12,19 +12,18 @@ spring:
     username: root
     password: root
   redis:
-    host: 106.13.143.190
-    port: 6379
     database: 0
+    host: 106.13.143.190
+    pool: 6379
     password:
-    timeout: 10000
-    lettuce:
+    jedis:
       pool:
         max-active: 8
-        max-wait: -1
+        max-wait: 1ms
         max-idle: 8
         min-idle: 0
-      shutdown-timeout: 100
-
+    timeout: 10000
+    block-when-exhausted: true
 #mybatis
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
@@ -48,8 +47,8 @@ shiro:
     token:
       expire-time: 1800
   # AES密码加密私钥(Base64加密)
-  encryptAESKey: V2FuZzkyNjQ1NGRTQkFQSUpXVA==
+  encryptAESKey: TGl1WXVuU2hpcm9Tb3VsMDkyOA==
   # JWT认证加密私钥(Base64加密)
-  encryptJWTKey: U0JBUElKV1RkV2FuZzkyNjQ1NA==
+  encryptJWTKey: U291bDA5MjhMaXVZdW5TaGlybw==
 
 

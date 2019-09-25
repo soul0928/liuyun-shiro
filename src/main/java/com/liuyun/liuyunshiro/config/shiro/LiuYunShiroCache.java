@@ -1,12 +1,18 @@
 package com.liuyun.liuyunshiro.config.shiro;
 
 import com.liuyun.liuyunshiro.common.constant.ShiroConstants;
+import com.liuyun.liuyunshiro.common.util.json.GsonConvertUtils;
 import com.liuyun.liuyunshiro.common.util.jwt.JwtUtils;
+import com.liuyun.liuyunshiro.common.util.jwt.SerializableUtils;
 import com.liuyun.liuyunshiro.common.util.properties.PropertiesUtils;
 import com.liuyun.liuyunshiro.common.util.redis.RedisUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  **/
 public class LiuYunShiroCache<K,V> implements Cache<K,V> {
 
-
+    private static String cacheExpireTime = (String) PropertiesUtils.getYml("shiro.cache.expire-time");
     /**
      * @description 缓存的key名称获取为 liuyun:shiro:cache:account
      * @author 王栋
@@ -47,7 +53,9 @@ public class LiuYunShiroCache<K,V> implements Cache<K,V> {
         if(!RedisUtils.exists(getKey(key))){
             return null;
         }
-        return RedisUtils.get(getKey(key));
+        String str = RedisUtils.get(getKey(key));
+        Object unserializable = SerializableUtils.unserializable(str.getBytes());
+        return unserializable;
     }
 
     /**
@@ -61,8 +69,16 @@ public class LiuYunShiroCache<K,V> implements Cache<K,V> {
     @Override
     public Object put(Object key, Object value) throws CacheException {
         // 读取配置文件，获取Redis的Shiro缓存过期时间
-        Long time = (Long) PropertiesUtils.getYml("shiro.cache.expire-time");
-        return RedisUtils.set(getKey(key), (String) value, time, TimeUnit.SECONDS);
+        String cachekey = getKey(key);
+        long aLong = Long.parseLong(cacheExpireTime);
+        byte[] serializable = SerializableUtils.serializable(value);
+        String str = null;
+        try {
+            str = new String(serializable, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return RedisUtils.set(cachekey, str, aLong, TimeUnit.SECONDS);
     }
 
     /**
@@ -131,5 +147,9 @@ public class LiuYunShiroCache<K,V> implements Cache<K,V> {
             values.add(get(key));
         }
         return values;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Long.parseLong(cacheExpireTime));
     }
 }

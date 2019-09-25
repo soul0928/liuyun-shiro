@@ -15,4 +15,8 @@
         <result column="del_flag" property="delFlag"/>
     </resultMap>
 
+    <sql id="BaseSql">
+        id, name, create_user_id, create_time, update_user_id, update_time, remark, version, del_flag
+    </sql>
+
 </mapper>

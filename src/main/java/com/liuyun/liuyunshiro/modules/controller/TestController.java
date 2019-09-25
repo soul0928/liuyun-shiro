@@ -3,6 +3,7 @@ package com.liuyun.liuyunshiro.modules.controller;
 import com.liuyun.liuyunshiro.common.result.Result;
 import com.liuyun.liuyunshiro.modules.pojo.enyity.TestEntity;
 import com.liuyun.liuyunshiro.modules.service.TestService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,13 @@ public class TestController {
 
     @RequestMapping("/queryAll")
     public Result queryAll() {
+        List<TestEntity> list = testService.queryAll();
+        return Result.success(list);
+    }
+
+    @RequestMapping("/queryAll2")
+    @RequiresPermissions(value = {"user:view"})
+    public Result queryAll2() {
         List<TestEntity> list = testService.queryAll();
         return Result.success(list);
     }

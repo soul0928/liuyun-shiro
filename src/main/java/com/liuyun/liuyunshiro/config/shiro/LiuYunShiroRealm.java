@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.liuyun.liuyunshiro.common.constant.ShiroConstants;
 import com.liuyun.liuyunshiro.common.util.jwt.JwtUtils;
 import com.liuyun.liuyunshiro.common.util.redis.RedisUtils;
+import com.liuyun.liuyunshiro.modules.pojo.dto.RoleDTO;
+import com.liuyun.liuyunshiro.modules.pojo.dto.UserDTO;
 import com.liuyun.liuyunshiro.modules.pojo.enyity.UserEntity;
+import com.liuyun.liuyunshiro.modules.service.RoleService;
 import com.liuyun.liuyunshiro.modules.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -13,12 +16,15 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.jedis.JedisUtils;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @ProjectName liuyun-shiro
@@ -34,6 +40,9 @@ public class LiuYunShiroRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     /**
      * 基于 token 必须重写此方法
@@ -55,7 +64,24 @@ public class LiuYunShiroRealm extends AuthorizingRealm {
      **/
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        return null;
+        LiuYunSimpleAuthorizationInfo liuYunSimpleAuthorizationInfo = new LiuYunSimpleAuthorizationInfo();
+
+        /*SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        String account = JwtUtils.getClaim(principals.toString(), ShiroConstants.ACCOUNT);
+        UserDTO userDto = new UserDTO();
+        userDto.setAccount(account);
+        // 查询用户角色
+        List<RoleDTO> roleDtos = roleService.queryRoleByUser(userDto);
+
+        simpleAuthorizationInfo.addRole("user:view");
+        Set<String> set = new HashSet<>();
+        set.add("user:view");
+        simpleAuthorizationInfo.setStringPermissions(set);*/
+        Set<String> set = new HashSet<>();
+        set.add("user:view");
+        liuYunSimpleAuthorizationInfo.addStringPermissions(set);
+
+        return liuYunSimpleAuthorizationInfo;
     }
 
     /**

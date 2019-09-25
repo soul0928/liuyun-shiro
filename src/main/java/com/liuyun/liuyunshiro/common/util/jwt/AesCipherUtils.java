@@ -112,4 +112,9 @@ public class AesCipherUtils {
             throw new GlobalException("解密异常，密钥有误:" + e.getMessage());
         }
     }
+
+    public static void main(String[] args) {
+        String s = enCrypto("demoData" + "demoData");
+        System.out.println(s);
+    }
 }

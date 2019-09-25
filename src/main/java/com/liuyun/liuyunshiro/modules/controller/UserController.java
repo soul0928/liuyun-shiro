@@ -78,6 +78,16 @@ public class UserController {
         return Result.fail("帐号或密码错误");
     }
 
+    public static void main(String[] args) {
+        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
+        System.out.println("当前时间戳 " + currentTimeMillis);
+        String token = JwtUtils.sign("demoData", currentTimeMillis);
+        System.out.println("token" + token);
+
+        String claim = JwtUtils.getClaim(token, "currentTimeMillis");
+        System.out.println("取出的时间戳 " + claim);
+    }
+
     @PostMapping(value = "/add")
     public Result add(UserDTO userDTO) {
         try {

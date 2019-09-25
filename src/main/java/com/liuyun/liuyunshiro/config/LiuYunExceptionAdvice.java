@@ -1,5 +1,6 @@
 package com.liuyun.liuyunshiro.config;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.liuyun.liuyunshiro.common.exception.GlobalException;
 import com.liuyun.liuyunshiro.common.result.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,15 @@ public class LiuYunExceptionAdvice {
      */
     @ExceptionHandler(GlobalException.class)
     public Result globalException(GlobalException e) {
+        return Result.fail(e.getMessage());
+    }
+
+    /**
+     * 捕捉GlobalException自定义异常
+     * @return
+     */
+    @ExceptionHandler(TokenExpiredException.class)
+    public Result tokenExpiredException(GlobalException e) {
         return Result.fail(e.getMessage());
     }
 
