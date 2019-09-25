@@ -47,12 +47,6 @@ public class Result<T> implements Serializable {
         return new Result();
     }
 
-    public Result<T> success(String message) {
-        this.code = GlobalConstants.SUCCESS_CODE;
-        this.message = message;
-        return this;
-    }
-
     public static Result<Object> success(Object data) {
         Result<Object> r = new Result<>();
         r.setResult(data);

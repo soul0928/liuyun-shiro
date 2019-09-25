@@ -14,7 +14,7 @@ import java.util.Date;
  * @Version 2.1.3
  **/
 @Data
-public class DataEntity<T> implements Serializable {
+public abstract class DataEntity<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

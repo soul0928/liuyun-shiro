@@ -75,7 +75,7 @@ public class JwtUtils {
             return jwt.getClaim(claim).asString();
         } catch (JWTDecodeException e) {
             log.error("解密Token中的公共信息出现JWTDecodeException异常:" + e.getMessage());
-            throw new GlobalException("解密Token中的公共信息出现JWTDecodeException异常:" + e.getMessage());
+            return null;
         }
     }
 

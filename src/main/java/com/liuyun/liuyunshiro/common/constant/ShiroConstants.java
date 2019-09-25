@@ -22,4 +22,9 @@ public class ShiroConstants {
      * redis-key-前缀-shiro:refresh_token:
      */
     public final static String PREFIX_SHIRO_REFRESH_TOKEN = "liuyun:shiro:refresh_token:";
+
+    /**
+     * JWT-currentTimeMillis:
+     */
+    public static final String CURRENT_TIME_MILLIS = "currentTimeMillis";
 }

@@ -44,7 +44,6 @@ public class LiuYunRedisConfig extends CachingConfigurerSupport {
      * Redis服务器地址
      **/
     private static String host = (String) PropertiesUtils.getYml("spring.redis.host");
-
     /**
      * Redis服务器连接端口
      **/
@@ -216,10 +215,4 @@ public class LiuYunRedisConfig extends CachingConfigurerSupport {
                 .build();
         return pool;
     }
-
-    public static void main(String[] args) {
-        System.out.println(host);
-
-    }
-
 }
