@@ -273,9 +273,9 @@ public class RedisUtils {
      * @description 为给定 key 设置生存时间，当 key 过期时(生存时间为 0 )，它会被自动删除。
      * @author 王栋
      * @date 2019/9/25 19:10
-     * @param key
-     * @param value
-     * @param indexdb
+     * @param key  key
+     * @param value value
+     * @param indexdb 选择redis库 0-15
      * @return java.lang.Long
      **/
     public Long expire(String key, int value, int indexdb) {
@@ -293,14 +293,15 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 以秒为单位，返回给定 key 的剩余生存时间
-     * </p>
-     *
-     * @param key
-     * @return 当 key 不存在时，返回 -2 。当 key 存在但没有设置剩余生存时间时，返回 -1 。否则，以秒为单位，返回 key
-     *         的剩余生存时间。 发生异常 返回 0
-     */
+     * @description 以秒为单位，返回给定 key 的剩余生存时间
+     * @author 王栋
+     * @date 2019/9/25 19:12
+     * @param key key
+     * @param indexdb 选择redis库 0-15
+     * @return java.lang.Long 当 key 不存在时，返回 -2 。
+     *                        当 key 存在但没有设置剩余生存时间时，返回 -1 。
+     *                        否则，以秒为单位，返回 key的剩余生存时间。 发生异常 返回 0
+     **/
     public Long ttl(String key,int indexdb) {
         Jedis jedis = null;
         try {
@@ -317,13 +318,12 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 移除给定 key 的生存时间，将这个 key 从『易失的』(带生存时间 key )转换成『持久的』(一个不带生存时间、永不过期的 key )
-     * </p>
-     *
-     * @param key
-     * @return 当生存时间移除成功时，返回 1 .如果 key 不存在或 key 没有设置生存时间，返回 0 ， 发生异常 返回 -1
-     */
+     * @description 移除给定 key 的生存时间，将这个 key 从『易失的』(带生存时间 key )转换成『持久的』(一个不带生存时间、永不过期的 key )
+     * @author 王栋
+     * @date 2019/9/25 19:13
+     * @param key key
+     * @return java.lang.Long 当生存时间移除成功时，返回 1 .如果 key 不存在或 key 没有设置生存时间，返回 0 ， 发生异常 返回 -1
+     **/
     public Long persist(String key) {
         Jedis jedis = null;
         try {
@@ -339,16 +339,14 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 新增key,并将 key 的生存时间 (以秒为单位)
-     * </p>
-     *
-     * @param key
-     * @param seconds
-     *            生存时间 单位：秒
-     * @param value
-     * @return 设置成功时返回 OK 。当 seconds 参数不合法时，返回一个错误。
-     */
+     * @description 新增key,并将 key 的生存时间 (以秒为单位)
+     * @author 王栋
+     * @date 2019/9/25 19:14
+     * @param key key
+     * @param seconds 生存时间 单位：秒
+     * @param value value
+     * @return java.lang.String 设置成功时返回 OK 。当 seconds 参数不合法时，返回一个错误。
+     **/
     public String setex(String key, int seconds, String value) {
         Jedis jedis = null;
         try {
@@ -364,14 +362,13 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 设置key value,如果key已经存在则返回0,nx==> not exist
-     * </p>
-     *
-     * @param key
-     * @param value
-     * @return 成功返回1 如果存在 和 发生异常 返回 0
-     */
+     * @description  设置key value,如果key已经存在则返回0,nx==> not exist
+     * @author 王栋
+     * @date 2019/9/25 19:14
+     * @param key key
+     * @param value value
+     * @return java.lang.Long 成功返回1 如果存在 和 发生异常 返回 0
+     **/
     public Long setnx(String key, String value) {
         Jedis jedis = null;
         try {
@@ -387,17 +384,13 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 将给定 key 的值设为 value ，并返回 key 的旧值(old value)。
-     * </p>
-     * <p>
-     * 当 key 存在但不是字符串类型时，返回一个错误。
-     * </p>
-     *
-     * @param key
-     * @param value
-     * @return 返回给定 key 的旧值。当 key 没有旧值时，也即是， key 不存在时，返回 nil
-     */
+     * @description 将给定 key 的值设为 value ，并返回 key 的旧值(old value)。
+     * @author 王栋
+     * @date 2019/9/25 19:14
+     * @param key key
+     * @param value value
+     * @return java.lang.String
+     **/
     public String getSet(String key, String value) {
         Jedis jedis = null;
         try {
@@ -413,16 +406,14 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 设置key value并制定这个键值的有效期
-     * </p>
-     *
-     * @param key
-     * @param value
-     * @param seconds
-     *            单位:秒
-     * @return 成功返回OK 失败和异常返回null
-     */
+     * @description 设置key value并制定这个键值的有效期
+     * @author 王栋
+     * @date 2019/9/25 19:15
+     * @param key key
+     * @param value value
+     * @param seconds 单位:秒
+     * @return java.lang.String 成功返回OK 失败和异常返回null
+     **/
     public String setex(String key, String value, int seconds) {
         Jedis jedis = null;
         String res = null;
@@ -439,37 +430,15 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 通过key 和offset 从指定的位置开始将原先value替换
-     * </p>
-     * <p>
-     * 下标从0开始,offset表示从offset下标开始替换
-     * </p>
-     * <p>
-     * 如果替换的字符串长度过小则会这样
-     * </p>
-     * <p>
-     * example:
-     * </p>
-     * <p>
-     * value : bigsea@zto.cn
-     * </p>
-     * <p>
-     * str : abc
-     * </p>
-     * <P>
-     * 从下标7开始替换 则结果为
-     * </p>
-     * <p>
-     * RES : bigsea.abc.cn
-     * </p>
-     *
-     * @param key
-     * @param str
-     * @param offset
-     *            下标位置
-     * @return 返回替换后 value 的长度
-     */
+     * @description  通过key 和offset 从指定的位置开始将原先value替换
+     *               下标从0开始,offset表示从offset下标开始替换
+     * @author 王栋
+     * @date 2019/9/25 19:15
+     * @param key  key
+     * @param str str
+     * @param offset 下标位置
+     * @return java.lang.Long 返回替换后 value 的长度
+     **/
     public Long setrange(String key, String str, int offset) {
         Jedis jedis = null;
         try {
@@ -485,14 +454,12 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 通过批量的key获取批量的value
-     * </p>
-     *
-     * @param keys
-     *            string数组 也可以是一个key
-     * @return 成功返回value的集合, 失败返回null的集合 ,异常返回空
-     */
+     * @description 通过批量的key获取批量的value
+     * @author 王栋
+     * @date 2019/9/25 19:16
+     * @param keys string数组 也可以是一个key
+     * @return java.util.List<java.lang.String> 成功返回value的集合, 失败返回null的集合 ,异常返回空
+     **/
     public List<String> mget(String... keys) {
         Jedis jedis = null;
         List<String> values = null;
@@ -523,6 +490,13 @@ public class RedisUtils {
      * @return 成功返回OK 失败 异常 返回 null
      *
      */
+    /**
+     * @description 批量的设置key:value,可以一个
+     * @author 王栋
+     * @date 2019/9/25 19:17
+     * @param keysvalues obj.mset(new String[]{"key2","value1","key2","value2"})
+     * @return java.lang.String 成功返回OK 失败 异常 返回 null
+     **/
     public String mset(String... keysvalues) {
         Jedis jedis = null;
         String res = null;
@@ -539,19 +513,12 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 批量的设置key:value,可以一个,如果key已经存在则会失败,操作会回滚
-     * </p>
-     * <p>
-     * example:
-     * </p>
-     * <p>
-     * obj.msetnx(new String[]{"key2","value1","key2","value2"})
-     * </p>
-     *
-     * @param keysvalues
-     * @return 成功返回1 失败返回0
-     */
+     * @description 批量的设置key:value,可以一个,如果key已经存在则会失败,操作会回滚
+     * @author 王栋
+     * @date 2019/9/25 19:17
+     * @param keysvalues obj.msetnx(new String[]{"key2","value1","key2","value2"})
+     * @return java.lang.Long 成功返回1 失败返回0
+     **/
     public Long msetnx(String... keysvalues) {
         Jedis jedis = null;
         Long res = 0L;
@@ -568,14 +535,13 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 设置key的值,并返回一个旧值
-     * </p>
-     *
-     * @param key
-     * @param value
-     * @return 旧值 如果key不存在 则返回null
-     */
+     * @description 设置key的值,并返回一个旧值
+     * @author 王栋
+     * @date 2019/9/25 19:18
+     * @param key key
+     * @param value value
+     * @return java.lang.String 旧值 如果key不存在 则返回null
+     **/
     public String getset(String key, String value) {
         Jedis jedis = null;
         String res = null;
@@ -592,16 +558,14 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 通过下标 和key 获取指定下标位置的 value
-     * </p>
-     *
+     * @description 通过下标 和key 获取指定下标位置的 value
+     * @author 王栋
+     * @date 2019/9/25 19:18
      * @param key
-     * @param startOffset
-     *            开始位置 从0 开始 负数表示从右边开始截取
+     * @param startOffset 开始位置 从0 开始 负数表示从右边开始截取
      * @param endOffset
-     * @return 如果没有返回null
-     */
+     * @return java.lang.String 如果没有返回null
+     **/
     public String getrange(String key, int startOffset, int endOffset) {
         Jedis jedis = null;
         String res = null;
@@ -618,13 +582,12 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 通过key 对value进行加值+1操作,当value不是int类型时会返回错误,当key不存在是则value为1
-     * </p>
-     *
-     * @param key
-     * @return 加值后的结果
-     */
+     * @description 通过key 对value进行加值+1操作,当value不是int类型时会返回错误,当key不存在是则value为1
+     * @author 王栋
+     * @date 2019/9/25 19:18
+     * @param key key
+     * @return java.lang.Long 加值后的结果
+     **/
     public Long incr(String key) {
         Jedis jedis = null;
         Long res = null;
@@ -641,14 +604,13 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 通过key给指定的value加值,如果key不存在,则这是value为该值
-     * </p>
-     *
+     * @description 通过key给指定的value加值,如果key不存在,则这是value为该值
+     * @author 王栋
+     * @date 2019/9/25 19:19
      * @param key
      * @param integer
-     * @return
-     */
+     * @return java.lang.Long
+     **/
     public Long incrBy(String key, Long integer) {
         Jedis jedis = null;
         Long res = null;
@@ -665,13 +627,12 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 对key的值做减减操作,如果key不存在,则设置key为-1
-     * </p>
-     *
-     * @param key
-     * @return
-     */
+     * @description 对key的值做减减操作,如果key不存在,则设置key为-1
+     * @author 王栋
+     * @date 2019/9/25 19:19
+     * @param key key
+     * @return java.lang.Long
+     **/
     public Long decr(String key) {
         Jedis jedis = null;
         Long res = null;
@@ -688,14 +649,13 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 减去指定的值
-     * </p>
-     *
+     * @description 减去指定的值
+     * @author 王栋
+     * @date 2019/9/25 19:19
      * @param key
      * @param integer
-     * @return
-     */
+     * @return java.lang.Long
+     **/
     public Long decrBy(String key, Long integer) {
         Jedis jedis = null;
         Long res = null;
@@ -712,13 +672,12 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 通过key获取value值的长度
-     * </p>
-     *
+     * @description 通过key获取value值的长度
+     * @author 王栋
+     * @date 2019/9/25 19:19
      * @param key
-     * @return 失败返回null
-     */
+     * @return java.lang.Long
+     **/
     public Long serlen(String key) {
         Jedis jedis = null;
         Long res = null;
@@ -735,16 +694,14 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 通过key给field设置指定的值,如果key不存在,则先创建
-     * </p>
-     *
-     * @param key
-     * @param field
-     *            字段
-     * @param value
-     * @return 如果存在返回0 异常返回null
-     */
+     * @description 通过key给field设置指定的值,如果key不存在,则先创建
+     * @author 王栋
+     * @date 2019/9/25 19:19
+     * @param key key
+     * @param field 字段
+     * @param value 如果存在返回0 异常返回null
+     * @return java.lang.Long
+     **/
     public Long hset(String key, String field, String value) {
         Jedis jedis = null;
         Long res = null;
@@ -761,15 +718,14 @@ public class RedisUtils {
     }
 
     /**
-     * <p>
-     * 通过key给field设置指定的值,如果key不存在则先创建,如果field已经存在,返回0
-     * </p>
-     *
-     * @param key
-     * @param field
-     * @param value
-     * @return
-     */
+     * @description 通过key给field设置指定的值,如果key不存在则先创建,如果field已经存在,返回0
+     * @author 王栋
+     * @date 2019/9/25 19:20
+     * @param key key
+     * @param field 字段
+     * @param value value
+     * @return java.lang.Long
+     **/
     public Long hsetnx(String key, String field, String value) {
         Jedis jedis = null;
         Long res = null;
