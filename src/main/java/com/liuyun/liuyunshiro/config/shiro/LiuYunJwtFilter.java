@@ -62,8 +62,6 @@ public class LiuYunJwtFilter extends BasicHttpAuthenticationFilter {
                 return false;
             }
         }
-
-
         try {
             // 进行 Shiro 的登录 LiuYunShiroRealm
             executeLogin(request, response);
@@ -98,7 +96,7 @@ public class LiuYunJwtFilter extends BasicHttpAuthenticationFilter {
             if (this.refreshToken(request, response)) {
                 return true;
             } else {
-                msg = "Token已过期(" + throwable.getMessage() + ")";
+                msg = "Token已过期";
             }
         } else {
             // 应用异常不为空
@@ -149,13 +147,17 @@ public class LiuYunJwtFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 进行AccessToken登录认证授权
-     */
-    @Override
+     * @description 进行AccessToken登录认证授权
+     * @author 王栋
+     * @date 2019/9/25 13:39
+     * @param request
+     * @param response
+     * @return boolean
+     **/
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         // 拿到当前Header中Authorization的AccessToken(Shiro中getAuthzHeader方法已经实现)
         LiuYunJwtToken token = new LiuYunJwtToken(this.getAuthzHeader(request));
-        // 提交给UserRealm进行认证，如果错误他会抛出异常并被捕获
+        // 提交给 Realm 进行认证，如果错误他会抛出异常并被捕获
         this.getSubject(request, response).login(token);
         // 如果没有抛出异常则代表登入成功，返回true
         return true;
@@ -185,8 +187,13 @@ public class LiuYunJwtFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 此处为AccessToken刷新，进行判断RefreshToken是否过期，未过期就返回新的AccessToken且继续正常访问
-     */
+     * @description 此处为AccessToken刷新，进行判断RefreshToken是否过期，未过期就返回新的AccessToken且继续正常访问
+     * @author 王栋
+     * @date 2019/9/25 13:38
+     * @param request
+     * @param response
+     * @return boolean
+     **/
     private boolean refreshToken(ServletRequest request, ServletResponse response) {
         // 拿到当前Header中Authorization的AccessToken(Shiro中getAuthzHeader方法已经实现)
         String token = this.getAuthzHeader(request);

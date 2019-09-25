@@ -36,8 +36,12 @@ public class LiuYunShiroCache<K,V> implements Cache<K,V> {
     }
 
     /**
-     * 获取缓存
-     */
+     * @description 获取缓存
+     * @author 王栋
+     * @date 2019/9/25 13:40
+     * @param key
+     * @return java.lang.Object
+     **/
     @Override
     public Object get(Object key) throws CacheException {
         if(!RedisUtils.exists(getKey(key))){
@@ -47,8 +51,13 @@ public class LiuYunShiroCache<K,V> implements Cache<K,V> {
     }
 
     /**
-     * 保存缓存
-     */
+     * @description 保存缓存
+     * @author 王栋
+     * @date 2019/9/25 13:40
+     * @param key
+     * @param value
+     * @return java.lang.Object
+     **/
     @Override
     public Object put(Object key, Object value) throws CacheException {
         // 读取配置文件，获取Redis的Shiro缓存过期时间
@@ -57,8 +66,12 @@ public class LiuYunShiroCache<K,V> implements Cache<K,V> {
     }
 
     /**
-     * 移除缓存
-     */
+     * @description 移除缓存
+     * @author 王栋
+     * @date 2019/9/25 13:40
+     * @param key
+     * @return java.lang.Object
+     **/
     @Override
     public Object remove(Object key) throws CacheException {
         if(!RedisUtils.exists(getKey(key))){
@@ -69,32 +82,48 @@ public class LiuYunShiroCache<K,V> implements Cache<K,V> {
     }
 
     /**
-     * 清空所有缓存
-     */
+     * @description 清空所有缓存
+     * @author 王栋
+     * @date 2019/9/25 13:40
+     * @param
+     * @return void
+     **/
     @Override
     public void clear() throws CacheException {
         RedisUtils.delByPrefix(ShiroConstants.PREFIX_SHIRO_CACHE);
     }
 
     /**
-     * 缓存的个数
-     */
+     * @description 缓存的个数
+     * @author 王栋
+     * @date 2019/9/25 13:40
+     * @param
+     * @return int
+     **/
     @Override
     public int size() {
         return RedisUtils.keys(ShiroConstants.PREFIX_SHIRO_CACHE).size();
     }
 
     /**
-     * 获取所有的key
-     */
+     * @description 获取所有的key
+     * @author 王栋
+     * @date 2019/9/25 13:40
+     * @param
+     * @return java.util.Set
+     **/
     @Override
     public Set keys() {
         return RedisUtils.keys(ShiroConstants.PREFIX_SHIRO_CACHE);
     }
 
     /**
-     * 获取所有的value
-     */
+     * @description 获取所有的value
+     * @author 王栋
+     * @date 2019/9/25 13:40
+     * @param
+     * @return java.util.Collection
+     **/
     @Override
     public Collection values() {
         List<Object> values = new ArrayList<>();

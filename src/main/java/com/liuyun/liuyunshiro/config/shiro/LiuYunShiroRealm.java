@@ -47,21 +47,24 @@ public class LiuYunShiroRealm extends AuthorizingRealm {
     }
 
     /**
-     * 授权器
+     * @description 授权器
+     * @author 王栋
+     * @date 2019/9/25 13:43
      * @param principals
-     * @return
-     */
+     * @return org.apache.shiro.authz.AuthorizationInfo
+     **/
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         return null;
     }
 
     /**
-     * 认证器
-     * @param token
-     * @return
-     * @throws AuthenticationException
-     */
+     * @description 认证器
+     * @author 王栋
+     * @date 2019/9/25 13:43
+     * @param authenticationToken
+     * @return org.apache.shiro.authc.AuthenticationInfo
+     **/
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String token = (String) authenticationToken.getCredentials();
@@ -90,15 +93,5 @@ public class LiuYunShiroRealm extends AuthorizingRealm {
             }
         }
         throw new AuthenticationException("Token已过期");
-    }
-
-    public static void main(String[] args) {
-        //算出盐值
-        String credentials="admin";
-        String salt="admin";
-        String hashAlgorithmName="MD5";
-        int hashIterations=1024;
-        SimpleHash simpleHash = new SimpleHash(hashAlgorithmName, credentials, salt, hashIterations);
-        System.out.println(simpleHash);
     }
 }

@@ -30,12 +30,12 @@ public class AesCipherUtils {
     private static String encryptAESKey = (String) PropertiesUtils.getYml("shiro.encryptAESKey");
 
     /**
-     * 加密
+     * @description 加密
+     * @author 王栋
+     * @date 2019/9/25 10:53
      * @param str
      * @return java.lang.String
-     * @author dolyw.com
-     * @date 2018/8/31 16:56
-     */
+     **/
     public static String enCrypto(String str) {
         try {
             Security.addProvider(new com.sun.crypto.provider.SunJCE());
@@ -73,12 +73,12 @@ public class AesCipherUtils {
     }
 
     /**
-     * 解密
+     * @description 解密
+     * @author 王栋
+     * @date 2019/9/25 10:53
      * @param str
      * @return java.lang.String
-     * @author dolyw.com
-     * @date 2018/8/31 16:56
-     */
+     **/
     public static String deCrypto(String str) {
         try {
             Security.addProvider(new com.sun.crypto.provider.SunJCE());
@@ -111,9 +111,5 @@ public class AesCipherUtils {
             log.error("解密异常，密钥有误:" + e.getMessage());
             throw new GlobalException("解密异常，密钥有误:" + e.getMessage());
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(encryptAESKey);
     }
 }
