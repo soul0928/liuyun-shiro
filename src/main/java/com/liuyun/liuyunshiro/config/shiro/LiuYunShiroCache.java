@@ -70,15 +70,10 @@ public class LiuYunShiroCache<K,V> implements Cache<K,V> {
     public Object put(Object key, Object value) throws CacheException {
         // 读取配置文件，获取Redis的Shiro缓存过期时间
         String cachekey = getKey(key);
-        long aLong = Long.parseLong(cacheExpireTime);
+        int aLong = Integer.parseInt(cacheExpireTime);
         byte[] serializable = SerializableUtils.serializable(value);
-        String str = null;
-        try {
-            str = new String(serializable, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return RedisUtils.set(cachekey, str, aLong, TimeUnit.SECONDS);
+        RedisUtils.set(cachekey.getBytes(), serializable);
+        return RedisUtils.expire(cachekey, aLong);
     }
 
     /**

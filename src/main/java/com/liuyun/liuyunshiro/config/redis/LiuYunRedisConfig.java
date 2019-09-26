@@ -1,7 +1,8 @@
 package com.liuyun.liuyunshiro.config.redis;
 
+import com.liuyun.liuyunshiro.common.util.properties.PropertiesUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,38 +21,40 @@ import redis.clients.jedis.JedisPoolConfig;
 @Configuration
 public class LiuYunRedisConfig extends CachingConfigurerSupport {
 
-    @Value("${spring.redis.host}")
-    private String host;
+    private static String host = PropertiesUtils.getYml("spring.redis.host");
 
-    @Value("${spring.redis.port}")
-    private int port;
+    private String port = PropertiesUtils.getYml("spring.redis.port");
 
-    @Value("${spring.redis.timeout}")
-    private int timeout;
+    private String timeout = PropertiesUtils.getYml("spring.redis.timeout");
 
-    @Value("${spring.redis.jedis.pool.max-idle}")
-    private int maxIdle;
+    private String maxIdle = PropertiesUtils.getYml("spring.redis.jedis.pool.max-idle");
 
-    @Value("${spring.redis.jedis.pool.max-wait}")
-    private long maxWaitMillis;
+    private String maxActive = PropertiesUtils.getYml("spring.redis.jedis.pool.max-active");
 
-    @Value("${spring.redis.password}")
-    private String password;
+    private String minIdle = PropertiesUtils.getYml("spring.redis.jedis.pool.min-idle");
 
-    @Value("${spring.redis.block-when-exhausted}")
-    private boolean  blockWhenExhausted;
+    private String maxWaitMillis = PropertiesUtils.getYml("spring.redis.jedis.pool.max-wait");
+
+    private String password = PropertiesUtils.getYml("spring.redis.password");
+
+    private String  blockWhenExhausted = PropertiesUtils.getYml("spring.redis.block-when-exhausted");
 
     @Bean
-    public JedisPool redisPoolFactory()  throws Exception{
-        log.info("redis地址：" + host + ":" + port);
-        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxIdle(maxIdle);
-        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
-        // 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true
-        jedisPoolConfig.setBlockWhenExhausted(blockWhenExhausted);
-        // 是否启用pool的jmx管理功能, 默认true
-        jedisPoolConfig.setJmxEnabled(true);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
-        return jedisPool;
+    public JedisPool jedisPool() {
+        try {
+            JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+            jedisPoolConfig.setMaxIdle(Integer.parseInt(maxIdle));
+            jedisPoolConfig.setMaxWaitMillis(Integer.valueOf(minIdle));
+            jedisPoolConfig.setMaxTotal(Integer.parseInt(maxActive));
+            jedisPoolConfig.setMinIdle(Integer.valueOf(minIdle));
+            // JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
+            String pwd = StringUtils.isBlank(password) ? null : password;
+            JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, Integer.parseInt(port), Integer.valueOf(timeout), pwd);
+            log.info("初始化Redis连接池JedisPool成功,地址: [{}]", host + ":" + port);
+            return jedisPool;
+        } catch (Exception e) {
+            log.error("初始化Redis连接池JedisPool异常:" + e.getMessage());
+        }
+        return null;
     }
 }

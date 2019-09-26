@@ -12,7 +12,9 @@ import com.liuyun.liuyunshiro.common.util.redis.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
@@ -31,6 +33,7 @@ import java.io.PrintWriter;
  * @Version 2.1.3
  **/
 @Slf4j
+@Component
 public class LiuYunJwtFilter extends BasicHttpAuthenticationFilter {
 
     private static String refreshTokenExpireTime = (String) PropertiesUtils.getYml("shiro.refresh.token.expire-time");
@@ -122,7 +125,6 @@ public class LiuYunJwtFilter extends BasicHttpAuthenticationFilter {
         return token != null;
     }
 
-
     /**
      * @description 直接返回Response信息
      * @author 王栋
@@ -209,7 +211,8 @@ public class LiuYunJwtFilter extends BasicHttpAuthenticationFilter {
                 // 获取当前最新时间戳
                 String currentTimeMillis = String.valueOf(System.currentTimeMillis());
                 // 设置RefreshToken中的时间戳为当前最新时间戳，且刷新过期时间重新为30分钟过期(配置文件可配置refreshTokenExpireTime属性)
-                RedisUtils.set(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN + account, currentTimeMillis, Long.parseLong(refreshTokenExpireTime));
+                RedisUtils.set(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN + account, currentTimeMillis);
+                RedisUtils.expire(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN + account, Integer.parseInt(refreshTokenExpireTime));
                 // 刷新AccessToken，设置时间戳为当前最新时间戳
                 token = JwtUtils.sign(account, currentTimeMillis);
                 // 将新刷新的AccessToken再次进行Shiro的登录

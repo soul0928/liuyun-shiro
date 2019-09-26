@@ -38,7 +38,7 @@ public class UserController {
      * RefreshToken过期时间
      */
     @Value("${shiro.refresh.token.expire-time}")
-    private Long refreshTokenExpireTime;
+    private String refreshTokenExpireTime;
 
     @Autowired
     private UserService userService;
@@ -67,7 +67,8 @@ public class UserController {
         if (key.equals(userDTO.getAccount() + userDTO.getPassword())) {
             // 设置RefreshToken，时间戳为当前时间戳，直接设置即可(不用先删后设，会覆盖已有的RefreshToken)
             String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-            RedisUtils.set(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN + userDTO.getAccount(), currentTimeMillis, refreshTokenExpireTime);
+            RedisUtils.set(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN + userDTO.getAccount(), currentTimeMillis);
+            RedisUtils.expire(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN + userDTO.getAccount(), Integer.parseInt(refreshTokenExpireTime));
             // 从Header中Authorization返回AccessToken，时间戳为当前时间戳
             String token = JwtUtils.sign(userDTO.getAccount(), currentTimeMillis);
             response.setHeader("Authorization", token);

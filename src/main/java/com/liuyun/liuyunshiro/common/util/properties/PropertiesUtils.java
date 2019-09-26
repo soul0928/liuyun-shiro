@@ -20,7 +20,7 @@ public class PropertiesUtils {
 
     private static String PROPERTY_NAME = "application.yml";
 
-    public static Object getYml(String key){
+    public static String getYml(String key){
         Resource resource = new ClassPathResource(PROPERTY_NAME);
         Properties properties = null;
         try {
@@ -31,6 +31,7 @@ public class PropertiesUtils {
             e.printStackTrace();
             return null;
         }
+        assert properties != null;
         return properties.getProperty(key);
     }
 
