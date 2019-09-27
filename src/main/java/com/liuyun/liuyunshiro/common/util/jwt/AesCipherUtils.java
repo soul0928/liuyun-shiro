@@ -114,7 +114,7 @@ public class AesCipherUtils {
     }
 
     public static void main(String[] args) {
-        String s = enCrypto("demoData" + "demoData");
+        String s = enCrypto("admin" + "admin");
         System.out.println(s);
     }
 }

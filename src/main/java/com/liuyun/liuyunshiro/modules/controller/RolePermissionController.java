@@ -20,4 +20,5 @@ public class RolePermissionController {
 
     @Autowired
     private RolePermissionService rolePermissionService;
+
 }

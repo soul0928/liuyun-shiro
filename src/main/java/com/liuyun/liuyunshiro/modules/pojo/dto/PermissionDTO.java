@@ -2,24 +2,25 @@ package com.liuyun.liuyunshiro.modules.pojo.dto;
 
 import lombok.Data;
 
+
 /**
- * @ProjectName liuyun-shiro
- * @ClassName RoleDTO
- * @Description
- * @Author WangDong
- * @Date 2019/9/25 14:15
- * @Version 2.1.3
- **/
+ * <p>
+ * 资源表
+ * </p>
+ *
+ * @author WangDong
+ * @since 2019-09-23
+ */
 @Data
-public class RoleDTO {
+public class PermissionDTO {
 
     /**
      * ID
      */
-    private Integer id;
+    private Long id;
 
     /**
-     * 角色名称
+     * 资源名称
      */
     private String name;
 

@@ -65,6 +65,12 @@ public abstract class DataEntity<T> implements Serializable {
         this.updateUserId = 1L;
     }
 
+    public void beforeDelete(){
+        this.updateTime = new Date();
+        this.updateUserId = 1L;
+        this.delFlag = 1;
+    }
+
     public DataEntity() {
         super();
     }

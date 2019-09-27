@@ -1,6 +1,9 @@
 package com.liuyun.liuyunshiro.modules.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.liuyun.liuyunshiro.common.util.bean.BeanUtils;
 import com.liuyun.liuyunshiro.modules.pojo.dto.RoleDTO;
+import com.liuyun.liuyunshiro.modules.pojo.dto.RolePermissionDTO;
 import com.liuyun.liuyunshiro.modules.pojo.dto.UserDTO;
 import com.liuyun.liuyunshiro.modules.pojo.enyity.RoleEntity;
 import com.liuyun.liuyunshiro.modules.mapper.RoleMapper;
@@ -26,15 +29,25 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     private RoleMapper roleMapper;
 
     /**
-     * @description 查询用户所有权限
+     * @description 查询角色
      * @author 王栋
-     * @date 2019/9/25 14:17
-     * @param userDto
+     * @date 2019/9/26 16:51
+     * @param userDTO
      * @return java.util.List<com.liuyun.liuyunshiro.modules.pojo.dto.RoleDTO>
      **/
     @Override
-    public List<RoleDTO> queryRoleByUser(UserDTO userDto) {
-        //List<RoleEntity> roleEntitys = roleMapper.queryRoleByUser(userDto);
-        return null;
+    public List<RoleDTO> queryAll(UserDTO userDTO) {
+        if (userDTO.getId() == null) {
+            QueryWrapper<RoleEntity> wrapper = new QueryWrapper<>();
+            RoleEntity roleEntity = new RoleEntity();
+            roleEntity.setDelFlag(RoleEntity.DEL_FLAG_NORMAL);
+            wrapper.setEntity(roleEntity);
+            List<RoleEntity> roleEntities = roleMapper.selectList(wrapper);
+            List<RoleDTO> roleDTOS = BeanUtils.copyList(roleEntities, RoleDTO.class);
+            return roleDTOS;
+        }
+        List<RoleEntity> roleEntities = roleMapper.queryRolesByUser(userDTO);
+        List<RoleDTO> roleDTOS = BeanUtils.copyList(roleEntities, RoleDTO.class);
+        return roleDTOS;
     }
 }

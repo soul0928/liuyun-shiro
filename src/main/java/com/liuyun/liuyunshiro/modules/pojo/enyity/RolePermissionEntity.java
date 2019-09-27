@@ -1,7 +1,5 @@
 package com.liuyun.liuyunshiro.modules.pojo.enyity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
@@ -26,16 +24,15 @@ public class RolePermissionEntity implements Serializable {
     /**
      * ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 角色id
      */
-    private Integer roleId;
+    private Long roleId;
 
     /**
      * 权限id
      */
-    private Integer permissionId;
+    private Long permissionId;
 }

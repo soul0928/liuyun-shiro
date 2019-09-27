@@ -16,4 +16,47 @@
         <result column="del_flag" property="delFlag"/>
     </resultMap>
 
+    <select id="queryPermissionsByUser" resultMap="BaseResultMap">
+        SELECT
+            lyp.id,
+            lyp.`name`,
+            lyp.per_code
+        FROM
+            liuyun_user lyu
+        INNER JOIN
+            liuyun_user_role lyur ON lyu.id	=  lyur.user_id
+        INNER JOIN
+            liuyun_role lyr ON lyur.role_id = lyr.id
+        INNER JOIN
+            liuyun_role_permission lyrp ON lyrp.role_id =  lyr.id
+        INNER JOIN
+            liuyun_permission lyp ON lyrp.permission_id = lyp.id
+        WHERE
+            lyu.account = #{account}
+        AND
+            lyu.del_flag = 0
+        AND
+            lyr.del_flag = 0
+        AND
+            lyp.del_flag = 0
+    </select>
+
+    <select id="queryRolesByrole" resultMap="BaseResultMap">
+        SELECT
+            lyr.id,
+            lyr.`name`,
+            lyr.per_code
+        FROM
+            liuyun_role lyr
+        INNER JOIN
+            liuyun_role_permission lyrp ON lyrp.role_id =  lyr.id
+        INNER JOIN
+            liuyun_permission lyp ON lyrp.permission_id = lyp.id
+        WHERE
+            lyr.id = #{id}
+        AND
+            lyr.del_flag = 0
+        AND
+            lyp.del_flag = 0
+    </select>
 </mapper>

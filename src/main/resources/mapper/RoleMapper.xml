@@ -6,6 +6,7 @@
     <resultMap id="BaseResultMap" type="RoleEntity">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
+        <result column="per_code" property="perCode"/>
         <result column="create_user_id" property="createUserId"/>
         <result column="create_time" property="createTime"/>
         <result column="update_user_id" property="updateUserId"/>
@@ -18,5 +19,24 @@
     <sql id="BaseSql">
         id, name, create_user_id, create_time, update_user_id, update_time, remark, version, del_flag
     </sql>
+
+    <select id="queryRolesByUser" resultMap="BaseResultMap">
+        SELECT
+            lyr.id,
+            lyr.`name`,
+            lyr.per_code
+        FROM
+            liuyun_user lyu
+        INNER JOIN
+            liuyun_user_role lyur ON lyu.id	=  lyur.user_id
+        INNER JOIN
+            liuyun_role lyr ON lyur.role_id = lyr.id
+        WHERE
+            lyu.account = #{account}
+        AND
+            lyu.del_flag = 0
+        AND
+            lyr.del_flag = 0
+    </select>
 
 </mapper>

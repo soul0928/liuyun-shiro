@@ -47,7 +47,9 @@ public class RedisUtils {
         try {
             jedis = jedisPool.getResource();
             Jedis resource = jedisPool.getResource();
-            return jedis.set(key, value);
+            SetParams setParams = new SetParams();
+            setParams.ex(timeOut);
+            return jedis.set(key, value,setParams);
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;
@@ -80,7 +82,7 @@ public class RedisUtils {
      * @param key
      * @return byte[]
      **/
-    public byte[] get(byte[] key) {
+    public static byte[] get(byte[] key) {
         Jedis jedis = null;
         byte[] value = null;
         try {

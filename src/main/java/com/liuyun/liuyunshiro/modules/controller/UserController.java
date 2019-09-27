@@ -67,8 +67,7 @@ public class UserController {
         if (key.equals(userDTO.getAccount() + userDTO.getPassword())) {
             // 设置RefreshToken，时间戳为当前时间戳，直接设置即可(不用先删后设，会覆盖已有的RefreshToken)
             String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-            RedisUtils.set(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN + userDTO.getAccount(), currentTimeMillis);
-            RedisUtils.expire(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN + userDTO.getAccount(), Integer.parseInt(refreshTokenExpireTime));
+            RedisUtils.set(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN + userDTO.getAccount(), currentTimeMillis, Integer.parseInt(refreshTokenExpireTime));
             // 从Header中Authorization返回AccessToken，时间戳为当前时间戳
             String token = JwtUtils.sign(userDTO.getAccount(), currentTimeMillis);
             response.setHeader("Authorization", token);
@@ -77,16 +76,6 @@ public class UserController {
         }
 
         return Result.fail("帐号或密码错误");
-    }
-
-    public static void main(String[] args) {
-        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-        System.out.println("当前时间戳 " + currentTimeMillis);
-        String token = JwtUtils.sign("demoData", currentTimeMillis);
-        System.out.println("token" + token);
-
-        String claim = JwtUtils.getClaim(token, "currentTimeMillis");
-        System.out.println("取出的时间戳 " + claim);
     }
 
     @PostMapping(value = "/add")
@@ -111,4 +100,5 @@ public class UserController {
             return Result.fail("ADD 异常" + e.getMessage());
         }
     }
+
 }

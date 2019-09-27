@@ -5,6 +5,7 @@ import com.liuyun.liuyunshiro.common.constant.ShiroConstants;
 import com.liuyun.liuyunshiro.common.util.jwt.JwtUtils;
 import com.liuyun.liuyunshiro.common.util.redis.RedisUtils;
 import com.liuyun.liuyunshiro.modules.pojo.dto.RoleDTO;
+import com.liuyun.liuyunshiro.modules.pojo.dto.RolePermissionDTO;
 import com.liuyun.liuyunshiro.modules.pojo.dto.UserDTO;
 import com.liuyun.liuyunshiro.modules.pojo.enyity.UserEntity;
 import com.liuyun.liuyunshiro.modules.service.RoleService;
@@ -65,22 +66,14 @@ public class LiuYunShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         LiuYunSimpleAuthorizationInfo liuYunSimpleAuthorizationInfo = new LiuYunSimpleAuthorizationInfo();
-
-        /*SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        // 获取用户账号
         String account = JwtUtils.getClaim(principals.toString(), ShiroConstants.ACCOUNT);
         UserDTO userDto = new UserDTO();
         userDto.setAccount(account);
-        // 查询用户角色
-        List<RoleDTO> roleDtos = roleService.queryRoleByUser(userDto);
-
-        simpleAuthorizationInfo.addRole("user:view");
-        Set<String> set = new HashSet<>();
-        set.add("user:view");
-        simpleAuthorizationInfo.setStringPermissions(set);*/
-        Set<String> set = new HashSet<>();
-        set.add("user:view");
-        liuYunSimpleAuthorizationInfo.addStringPermissions(set);
-
+        // 根据用户查询其拥有角色及权限
+        RolePermissionDTO rolePermissionDTO = userService.queryRoleAndPermissionByUser(userDto);
+        liuYunSimpleAuthorizationInfo.setRoles(rolePermissionDTO.getRole());
+        liuYunSimpleAuthorizationInfo.setStringPermissions(rolePermissionDTO.getPermission());
         return liuYunSimpleAuthorizationInfo;
     }
 

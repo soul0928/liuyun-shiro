@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @ProjectName liuyun-shiro
  * @ClassName LiuYunSimpleAuthorizationInfo
- * @Description
+ * @Description 实现序列化存志 reids
  * @Author WangDong
  * @Date 2019/9/25 16:51
  * @Version 2.1.3
@@ -19,7 +19,10 @@ import java.io.Serializable;
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class LiuYunSimpleAuthorizationInfo extends SimpleAuthorizationInfo implements Serializable {
+
     private static final long serialVersionUID = 1L;
+
+
 }
 
 

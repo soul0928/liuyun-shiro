@@ -53,9 +53,9 @@ public class LiuYunShiroCache<K,V> implements Cache<K,V> {
         if(!RedisUtils.exists(getKey(key))){
             return null;
         }
-        String str = RedisUtils.get(getKey(key));
-        Object unserializable = SerializableUtils.unserializable(str.getBytes());
-        return unserializable;
+        String s = RedisUtils.get(getKey(key));
+        LiuYunSimpleAuthorizationInfo liuYunSimpleAuthorizationInfo = GsonConvertUtils.toBean(s, LiuYunSimpleAuthorizationInfo.class);
+        return liuYunSimpleAuthorizationInfo;
     }
 
     /**
@@ -71,9 +71,9 @@ public class LiuYunShiroCache<K,V> implements Cache<K,V> {
         // 读取配置文件，获取Redis的Shiro缓存过期时间
         String cachekey = getKey(key);
         int aLong = Integer.parseInt(cacheExpireTime);
-        byte[] serializable = SerializableUtils.serializable(value);
-        RedisUtils.set(cachekey.getBytes(), serializable);
-        return RedisUtils.expire(cachekey, aLong);
+        //byte[] serializable = SerializableUtils.serializable(value);
+        String s = GsonConvertUtils.toJson(value);
+        return RedisUtils.set(cachekey, s, aLong);
     }
 
     /**

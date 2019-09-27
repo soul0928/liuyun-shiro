@@ -1,7 +1,5 @@
 package com.liuyun.liuyunshiro.modules.pojo.enyity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.liuyun.liuyunshiro.common.base.DataEntity;
 import lombok.Data;
@@ -30,8 +28,7 @@ public class PermissionEntity extends DataEntity<PermissionEntity> implements Se
     /**
      * ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 资源名称

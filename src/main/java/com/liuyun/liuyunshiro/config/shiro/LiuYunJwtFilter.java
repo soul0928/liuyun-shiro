@@ -211,8 +211,7 @@ public class LiuYunJwtFilter extends BasicHttpAuthenticationFilter {
                 // 获取当前最新时间戳
                 String currentTimeMillis = String.valueOf(System.currentTimeMillis());
                 // 设置RefreshToken中的时间戳为当前最新时间戳，且刷新过期时间重新为30分钟过期(配置文件可配置refreshTokenExpireTime属性)
-                RedisUtils.set(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN + account, currentTimeMillis);
-                RedisUtils.expire(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN + account, Integer.parseInt(refreshTokenExpireTime));
+                RedisUtils.set(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN + account, currentTimeMillis, Integer.parseInt(refreshTokenExpireTime));
                 // 刷新AccessToken，设置时间戳为当前最新时间戳
                 token = JwtUtils.sign(account, currentTimeMillis);
                 // 将新刷新的AccessToken再次进行Shiro的登录
