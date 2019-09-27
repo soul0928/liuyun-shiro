@@ -176,7 +176,7 @@ public class RedisUtils {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            return jedis.keys(key + ":*");
+            return jedis.keys(key + "*");
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;

@@ -5,6 +5,8 @@ import com.liuyun.liuyunshiro.modules.pojo.dto.RolePermissionDTO;
 import com.liuyun.liuyunshiro.modules.pojo.dto.UserDTO;
 import com.liuyun.liuyunshiro.modules.pojo.enyity.UserEntity;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 服务类
@@ -24,4 +26,12 @@ public interface UserService extends IService<UserEntity> {
      **/
     RolePermissionDTO queryRoleAndPermissionByUser(UserDTO userDto);
 
+    /**
+     * @description 获取在线用户(查询Redis中的RefreshToken)
+     * @author 王栋
+     * @date 2019/9/27 10:05
+     * @param
+     * @return java.util.List<com.liuyun.liuyunshiro.modules.pojo.dto.UserDTO>
+     **/
+    List<UserDTO> online();
 }

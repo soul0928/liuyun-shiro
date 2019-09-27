@@ -13,13 +13,15 @@ import com.liuyun.liuyunshiro.modules.pojo.dto.UserDTO;
 import com.liuyun.liuyunshiro.modules.pojo.enyity.UserEntity;
 import com.liuyun.liuyunshiro.modules.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * <p>
@@ -78,6 +80,13 @@ public class UserController {
         return Result.fail("帐号或密码错误");
     }
 
+    /**
+     * @description 新增用户
+     * @author 王栋
+     * @date 2019/9/27 10:01
+     * @param userDTO
+     * @return com.liuyun.liuyunshiro.common.result.Result
+     **/
     @PostMapping(value = "/add")
     public Result add(UserDTO userDTO) {
         try {
@@ -96,9 +105,81 @@ public class UserController {
             userService.save(userEntity);
             return Result.success();
         } catch (GlobalException e) {
-            log.info(" [{}]", e.getMessage());
+            log.info("新增用户，发生错误 [{}]", e.getMessage());
             return Result.fail("ADD 异常" + e.getMessage());
         }
     }
 
+    /**
+     * @description 获取在线用户(查询Redis中的RefreshToken)
+     * @author 王栋
+     * @date 2019/9/27 10:04
+     * @param
+     * @return com.liuyun.liuyunshiro.common.result.Result
+     **/
+    @GetMapping("/online")
+    public Result online() {
+        try {
+            List<UserDTO> list = userService.online();
+             return Result.success(list);
+        } catch (GlobalException e) {
+            log.info("获取在线用户，发生错误  [{}]", e.getMessage());
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * @description 更新用户
+     * @author 王栋
+     * @date 2019/9/27 10:26
+     * @param userDTO
+     * @return com.liuyun.liuyunshiro.common.result.Result
+     **/
+    @PutMapping
+    @RequiresPermissions(logical = Logical.AND, value = {"user:edit"})
+    public Result update(UserDTO userDTO) {
+
+        //TODO
+
+        /**
+         * 在退出登录 / 修改密码时怎样实现JWT Token失效？
+         *
+         *
+         * 时间戳 校验
+         *
+         *
+         **/
+
+        return Result.success();
+    }
+
+    /**
+     * @description 删除用户
+     * @author 王栋
+     * @date 2019/9/27 10:27
+     * @param id
+     * @return ResponseBean
+     **/
+    @DeleteMapping("/{id}")
+    @RequiresPermissions(logical = Logical.AND, value = {"user:edit"})
+    public Result delete(@PathVariable("id") Integer id) {
+
+
+
+        return Result.success();
+    }
+
+    /**
+     * @description 剔除在线用户
+     * @author 王栋
+     * @date 2019/9/27 10:27
+     * @param id
+     * @return ResponseBean
+     **/
+    @DeleteMapping("/online/{id}")
+    @RequiresPermissions(logical = Logical.AND, value = {"user:edit"})
+    public Result deleteOnline(@PathVariable("id") Integer id) {
+
+        return Result.success();
+    }
 }

@@ -1,6 +1,10 @@
 package com.liuyun.liuyunshiro.modules.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.liuyun.liuyunshiro.common.constant.ShiroConstants;
+import com.liuyun.liuyunshiro.common.util.bean.BeanUtils;
+import com.liuyun.liuyunshiro.common.util.redis.RedisUtils;
 import com.liuyun.liuyunshiro.modules.mapper.PermissionMapper;
 import com.liuyun.liuyunshiro.modules.mapper.RoleMapper;
 import com.liuyun.liuyunshiro.modules.mapper.UserMapper;
@@ -14,6 +18,7 @@ import org.apache.commons.collections.SetUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,6 +63,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         rolePermissionDTO.setRole(new HashSet<>(roles));
         rolePermissionDTO.setPermission(new HashSet<>(permissions));
         return rolePermissionDTO;
+    }
+
+    /**
+     * @description 获取在线用户(查询Redis中的RefreshToken)
+     * @author 王栋
+     * @date 2019/9/27 10:05
+     * @param
+     * @return java.util.List<com.liuyun.liuyunshiro.modules.pojo.dto.UserDTO>
+     **/
+    @Override
+    public List<UserDTO> online() {
+        List<UserDTO> list = new ArrayList<>();
+        Set<String> keys = RedisUtils.keys(ShiroConstants.PREFIX_SHIRO_REFRESH_TOKEN);
+        for (String key : keys) {
+            String[] str = key.split(":");
+            UserEntity userEntity = new UserEntity();
+            userEntity.setAccount(str[str.length - 1]);
+            QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
+            wrapper.setEntity(userEntity);
+            UserEntity userinfo = userMapper.selectOne(wrapper);
+            UserDTO userDTO = BeanUtils.copyProperties(userinfo, UserDTO.class);
+            list.add(userDTO);
+        }
+        return list;
     }
 
 }
