@@ -1,7 +1,4 @@
 # liuyun-shiro
-
-基于：
-    https://github.com/dolyw/ShiroJwt 万分感谢
         
 关于Shiro + Java-JWT实现无状态鉴权机制(Token)
 
